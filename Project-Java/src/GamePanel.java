@@ -93,7 +93,7 @@ public class GamePanel extends JPanel {
                 generateApplePosition();
 
                 while(body.size()>3){
-                    body.remove(body.getLast());
+                    body.remove(body.size()-1);
                 }
 
                 //frame.dispose();
