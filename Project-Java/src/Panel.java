@@ -123,7 +123,7 @@ public class Panel {
             if(posa >= 970 || posa <= 20 ||  posb >= 695 || posb <= 20){
                 int opcja = JOptionPane.showConfirmDialog(
                         frame,
-                        "Wyjechałeś poza krawędź, koniec gry.",
+                        "Wyjechałeś poza krawędź \n Czy chcesz zagrać jeszcze raz?.",
                         "GAME OVER",
                         JOptionPane.YES_NO_OPTION
                 );
@@ -132,7 +132,6 @@ public class Panel {
                     positionYHead = 120;
                     //frame.dispose();
                     //showFrame();
-
                 } else {
                     System.exit(1);
                 }
