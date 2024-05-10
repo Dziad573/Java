@@ -34,8 +34,8 @@ public class Panel {
         panel.setBackground(Color.GREEN);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, (HEIGHT / 2)));
 
-        JButton button = new JButton("PLAY");
-        button.addActionListener(e -> {
+        JButton playButton = new JButton("PLAY");
+        playButton.addActionListener(e -> {
             frame.getContentPane().remove(startPanel);
             frame.getContentPane().add(gamePanel);
             frame.revalidate();
@@ -43,7 +43,17 @@ public class Panel {
             gamePanel.requestFocusInWindow();
         });
 
-        panel.add(button);
+        JButton optionsButton = new JButton("OPTIONS");
+        playButton.addActionListener(e -> {
+            frame.getContentPane().remove(startPanel);
+            frame.getContentPane().add(gamePanel);
+            frame.revalidate();
+            frame.repaint();
+            gamePanel.requestFocusInWindow();
+        });
+
+        panel.add(playButton);
+        panel.add(optionsButton);
         return panel;
     }
 

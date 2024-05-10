@@ -83,7 +83,9 @@ public class GamePanel extends JPanel {
         ){
             int opcja = JOptionPane.showConfirmDialog(
                     frame,
-                    "Wyjechałeś poza krawędź. \n Czy chcesz zagrać jeszcze raz?",
+                    "Wyjechałeś poza krawędź. \n " +
+                    "Czy chcesz zagrać jeszcze raz? \n " +
+                    " Twój wynik to: " + (body.size() - 3),
                     "GAME OVER",
                     JOptionPane.YES_NO_OPTION
             );
@@ -91,6 +93,7 @@ public class GamePanel extends JPanel {
                 positionXHead = 120;
                 positionYHead = 120;
                 generateApplePosition();
+                frame.repaint();
 
                 while(body.size()>3){
                     body.remove(body.size()-1);
@@ -119,8 +122,7 @@ public class GamePanel extends JPanel {
         int appleElementPositionY = minY + randomIndexY * 25 - 5;
         applePosition = new Point(appleElementPositionX, appleElementPositionY);
 
-        System.out.println(appleElementPositionX);
-        System.out.println(appleElementPositionY);
+        System.out.println("Apple x and y " + appleElementPositionX + " " + appleElementPositionY);
     }
 
     private void drawApple(Graphics g) {
