@@ -9,9 +9,10 @@ import java.util.List;
 
 public class Panel {
     public JFrame frame;
-    private JPanel panel;
+    public JPanel panel;
     private JPanel startPanel;
     private GamePanel gamePanel;
+    private OptionsPanel optionsPanel;
     public final static int WIDTH = 1024;
     public final static int HEIGHT = 768;
 
@@ -21,6 +22,7 @@ public class Panel {
 
         startPanel = createStartPanel();
         gamePanel = createGamePanel();
+        optionsPanel = createOptionsPanel();
         frame.getContentPane().add(startPanel);
 
         frame.setSize(WIDTH, HEIGHT);
@@ -29,10 +31,10 @@ public class Panel {
         frame.setVisible(true);
     }
 
-    private JPanel createStartPanel() {
+    public JPanel createStartPanel() {
         panel = new JPanel();
         panel.setBackground(Color.GREEN);
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, (HEIGHT / 2)));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, (HEIGHT / 2)));
 
         JButton playButton = new JButton("PLAY");
         playButton.addActionListener(e -> {
@@ -44,12 +46,12 @@ public class Panel {
         });
 
         JButton optionsButton = new JButton("OPTIONS");
-        playButton.addActionListener(e -> {
+        optionsButton.addActionListener(e -> {
             frame.getContentPane().remove(startPanel);
-            frame.getContentPane().add(gamePanel);
+            frame.getContentPane().add(optionsPanel);
             frame.revalidate();
             frame.repaint();
-            gamePanel.requestFocusInWindow();
+            optionsPanel.requestFocusInWindow();
         });
 
         panel.add(playButton);
@@ -58,9 +60,20 @@ public class Panel {
     }
 
     private GamePanel createGamePanel() {
-        GamePanel panel = new GamePanel(frame);
+        GamePanel panel = new GamePanel(frame, this);
         panel.setBackground(Color.BLACK);
         panel.setFocusable(true);
         return panel;
+    }
+
+    private OptionsPanel createOptionsPanel() {
+        OptionsPanel optionsPanel = new OptionsPanel(frame, this);
+        optionsPanel.setBackground(Color.BLACK);
+        optionsPanel.setFocusable(true);
+        return optionsPanel;
+    }
+
+    public JPanel getStartPanel() {
+        return startPanel;
     }
 }

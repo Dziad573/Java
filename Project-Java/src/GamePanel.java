@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private JFrame frame;
+    private Panel mainPanel;
     private ArrayList<Point> body;
     private int bodySize = 20;
     private int positionXHead = 120;
@@ -14,7 +15,7 @@ public class GamePanel extends JPanel {
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
 
-    public GamePanel(JFrame frame) {
+    public GamePanel(JFrame frame, Panel mainPanel) {
         this.frame = frame;
         body = new ArrayList<>();
         body.add(new Point(positionXHead,positionYHead));
@@ -38,6 +39,13 @@ public class GamePanel extends JPanel {
                         break;
                     case KeyEvent.VK_D:
                         moveSnake(1, 0);
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        frame.getContentPane().remove(GamePanel.this);
+                        frame.getContentPane().add(mainPanel.getStartPanel());
+                        frame.revalidate();
+                        frame.repaint();
+                        mainPanel.getStartPanel().requestFocusInWindow();
                         break;
                 }
             }
