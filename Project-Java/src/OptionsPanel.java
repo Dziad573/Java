@@ -16,7 +16,7 @@ public class OptionsPanel extends JPanel {
         JLabel label = new JLabel("Options", SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("BACK");
         backButton.addActionListener(e -> {
             frame.getContentPane().remove(this);
             frame.getContentPane().add(mainPanel.getStartPanel());

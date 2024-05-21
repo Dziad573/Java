@@ -72,6 +72,12 @@ public class GamePanel extends JPanel{
     }
 
     public void activateGamePanel() {
+        resetGame();
+        isActive = true;
+        timer.start();
+        requestFocusInWindow();
+    }
+    public void activateContinueGamePanel() {
         isActive = true;
         timer.start();
         requestFocusInWindow();
@@ -111,19 +117,59 @@ public class GamePanel extends JPanel{
     private void collision(int positionXHeadAfterMove, int positionYHeadAfterMove){
         if (!isActive) return;
         if(
-                positionXHeadAfterMove >= frame.getWidth() - bodySize * 2 || positionXHeadAfterMove <= 5 ||
-                positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 || positionYHeadAfterMove <= 5
+                positionXHeadAfterMove >= frame.getWidth() - bodySize * 2 ||
+                positionXHeadAfterMove <= 5 ||
+                positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 ||
+                positionYHeadAfterMove <= 5
         ){
             timer.stop();
-            int opcja = JOptionPane.showConfirmDialog(
-                    frame,
-                    "Wyjechałeś poza krawędź. \n " +
-                    "Czy chcesz zagrać jeszcze raz? \n " +
-                    " Twój wynik to: " + (body.size() - 3),
-                    "GAME OVER",
-                    JOptionPane.YES_NO_OPTION
-            );
-            if(opcja == JOptionPane.YES_OPTION){
+            showGameOverDialog();
+            return;
+        }
+
+        for (int i = 1; i < body.size() - 1; i++) {
+            Point segment = body.get(i);
+            if (
+                    positionXHeadAfterMove == segment.x &&
+                    positionYHeadAfterMove == segment.y ||
+                    positionXHeadAfterMove == body.get(1).getX() &&
+                    positionYHeadAfterMove == body.get(1).getY()
+            ) {
+                timer.stop();
+                showGameOverDialog();
+                return;
+            }
+
+            int firstBodyElementX = body.get(1).getLocation().x;
+            int firstBodyElementY = body.get(1).getLocation().y;
+            int secondBodyElementX = body.get(2).getLocation().x;
+            int secondBodyElementY = body.get(2).getLocation().y;
+            if (
+                    positionXHeadAfterMove == firstBodyElementX &&
+                    positionYHeadAfterMove == firstBodyElementY ||
+                    positionXHeadAfterMove == secondBodyElementX &&
+                    positionYHeadAfterMove == secondBodyElementY
+            ){
+                timer.stop();
+                showGameOverDialog();
+                return;
+            }
+
+
+        }
+    }
+
+
+    private void showGameOverDialog(){
+        int opcja = JOptionPane.showConfirmDialog(
+                frame,
+                "Wyjechałeś poza krawędź. \n " +
+                        "Czy chcesz zagrać jeszcze raz? \n " +
+                        " Twój wynik to: " + (body.size() - 3),
+                "GAME OVER",
+                JOptionPane.YES_NO_OPTION
+        );
+        if(opcja == JOptionPane.YES_OPTION){
                 /*positionXHead = 120;
                 positionYHead = 120;
                 generateApplePosition();
@@ -132,15 +178,12 @@ public class GamePanel extends JPanel{
                 while(body.size()>3){
                     body.remove(body.size()-1);
                 }*/
-                resetGame();
+            resetGame();
 
-                //frame.dispose();
-                //showFrame();
-            } else {
-                System.exit(1);
-            }
-            //System.out.println(positionXHeadAfterMove);
-            //System.out.println(positionYHeadAfterMove);
+            //frame.dispose();
+            //showFrame();
+        } else {
+            System.exit(1);
         }
     }
 
@@ -153,6 +196,7 @@ public class GamePanel extends JPanel{
         body.add(new Point(positionXHead, positionYHead));
         body.add(new Point(positionXHead, positionYHead));
         body.add(new Point(positionXHead, positionYHead));
+        moveSnake(directionX = 1, directionY = 0);
         isActive = true;
         timer.start();
         repaint();
