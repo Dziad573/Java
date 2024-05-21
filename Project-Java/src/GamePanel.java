@@ -20,6 +20,8 @@ public class GamePanel extends JPanel{
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
     private boolean isActive = false;
+    private JRadioButton selectedRadioButton;
+    private OptionsPanel optionsPanel;
 
     public GamePanel(JFrame frame, Panel mainPanel) {
         this.frame = frame;
@@ -35,20 +37,28 @@ public class GamePanel extends JPanel{
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_W:
-                        directionX = 0;
-                        directionY = -1;
+
+                            directionX = 0;
+                            directionY = -1;
+
                         break;
                     case KeyEvent.VK_S:
-                        directionX = 0;
-                        directionY = 1;
+
+                            directionX = 0;
+                            directionY = 1;
+
                         break;
                     case KeyEvent.VK_A:
-                        directionX = -1;
-                        directionY = 0;
+
+                            directionX = -1;
+                            directionY = 0;
+
                         break;
                     case KeyEvent.VK_D:
-                        directionX = 1;
-                        directionY = 0;
+
+                            directionX = 1;
+                            directionY = 0;
+
                         break;
                     case KeyEvent.VK_ESCAPE:
                         frame.getContentPane().remove(GamePanel.this);
@@ -59,6 +69,69 @@ public class GamePanel extends JPanel{
                         timer.stop();
                         mainPanel.getStartPanel().requestFocusInWindow();
                         break;
+
+                        
+                /*
+                if (selectedRadioButton == setToWSAD) {
+                    case KeyEvent.VK_W:
+
+                            directionX = 0;
+                            directionY = -1;
+
+                        break;
+                    case KeyEvent.VK_S:
+
+                            directionX = 0;
+                            directionY = 1;
+
+                        break;
+                    case KeyEvent.VK_A:
+
+                            directionX = -1;
+                            directionY = 0;
+
+                        break;
+                    case KeyEvent.VK_D:
+
+                            directionX = 1;
+                            directionY = 0;
+
+                        break;
+                }
+                */
+
+
+
+                    /*
+
+                    case KeyEvent.VK_UP:
+                        if (selectedRadioButton == setToArrows) {
+                            directionX = 0;
+                            directionY = -1;
+                        }
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        if (selectedRadioButton == setToArrows) {
+                            directionX = 0;
+                            directionY = 1;
+                        }
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        if (selectedRadioButton == setToArrows) {
+                            directionX = -1;
+                            directionY = 0;
+                        }
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        if (selectedRadioButton == setToArrows) {
+                            directionX = 1;
+                            directionY = 0;
+                        }
+                        break;
+
+                    */
+
+
                 }
             }
         });
@@ -68,8 +141,15 @@ public class GamePanel extends JPanel{
                 moveSnake(directionX, directionY);
             }
         });
-
     }
+    public JRadioButton getSelectedRadioButton() {
+        return selectedRadioButton;
+    }
+
+    public void setOptionsPanel(OptionsPanel optionsPanel) {
+        this.optionsPanel = optionsPanel;
+    }
+
 
     public void activateGamePanel() {
         resetGame();
@@ -154,11 +234,8 @@ public class GamePanel extends JPanel{
                 showGameOverDialog();
                 return;
             }
-
-
         }
     }
-
 
     private void showGameOverDialog(){
         int opcja = JOptionPane.showConfirmDialog(
@@ -186,7 +263,6 @@ public class GamePanel extends JPanel{
             System.exit(1);
         }
     }
-
 
     private void resetGame() {
         positionXHead = 120;
