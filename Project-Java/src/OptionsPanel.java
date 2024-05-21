@@ -9,6 +9,7 @@ public class OptionsPanel extends JPanel {
     public OptionsPanel(JFrame frame, Panel mainPanel) {
         //this.frame = frame;
         //this.mainPanel = mainPanel;
+
         setLayout(new BorderLayout());
         setBackground(Color.GRAY);
 

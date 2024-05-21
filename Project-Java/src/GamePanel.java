@@ -1,19 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel{
     private JFrame frame;
     private Panel mainPanel;
     private ArrayList<Point> body;
     private int bodySize = 20;
+    private Timer timer;
+    private int directionX = 1;
+    private int directionY = 0;
     private int positionXHead = 120;
     private int positionYHead = 120;
     private Point applePosition;
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
+    private boolean isActive = false;
 
     public GamePanel(JFrame frame, Panel mainPanel) {
         this.frame = frame;
@@ -29,28 +35,46 @@ public class GamePanel extends JPanel {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_W:
-                        moveSnake(0, -1);
+                        directionX = 0;
+                        directionY = -1;
                         break;
                     case KeyEvent.VK_S:
-                        moveSnake(0, 1);
+                        directionX = 0;
+                        directionY = 1;
                         break;
                     case KeyEvent.VK_A:
-                        moveSnake(-1, 0);
+                        directionX = -1;
+                        directionY = 0;
                         break;
                     case KeyEvent.VK_D:
-                        moveSnake(1, 0);
+                        directionX = 1;
+                        directionY = 0;
                         break;
                     case KeyEvent.VK_ESCAPE:
                         frame.getContentPane().remove(GamePanel.this);
                         frame.getContentPane().add(mainPanel.getStartPanel());
                         frame.revalidate();
                         frame.repaint();
+                        isActive = false;
+                        timer.stop();
                         mainPanel.getStartPanel().requestFocusInWindow();
                         break;
                 }
             }
         });
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                moveSnake(directionX, directionY);
+            }
+        });
 
+    }
+
+    public void activateGamePanel() {
+        isActive = true;
+        timer.start();
+        requestFocusInWindow();
     }
 
     @Override
@@ -85,10 +109,12 @@ public class GamePanel extends JPanel {
     }
 
     private void collision(int positionXHeadAfterMove, int positionYHeadAfterMove){
+        if (!isActive) return;
         if(
                 positionXHeadAfterMove >= frame.getWidth() - bodySize * 2 || positionXHeadAfterMove <= 5 ||
-                        positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 || positionYHeadAfterMove <= 5
+                positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 || positionYHeadAfterMove <= 5
         ){
+            timer.stop();
             int opcja = JOptionPane.showConfirmDialog(
                     frame,
                     "Wyjechałeś poza krawędź. \n " +
@@ -98,14 +124,15 @@ public class GamePanel extends JPanel {
                     JOptionPane.YES_NO_OPTION
             );
             if(opcja == JOptionPane.YES_OPTION){
-                positionXHead = 120;
+                /*positionXHead = 120;
                 positionYHead = 120;
                 generateApplePosition();
                 frame.repaint();
 
                 while(body.size()>3){
                     body.remove(body.size()-1);
-                }
+                }*/
+                resetGame();
 
                 //frame.dispose();
                 //showFrame();
@@ -115,6 +142,20 @@ public class GamePanel extends JPanel {
             //System.out.println(positionXHeadAfterMove);
             //System.out.println(positionYHeadAfterMove);
         }
+    }
+
+
+    private void resetGame() {
+        positionXHead = 120;
+        positionYHead = 120;
+        generateApplePosition();
+        body.clear();
+        body.add(new Point(positionXHead, positionYHead));
+        body.add(new Point(positionXHead, positionYHead));
+        body.add(new Point(positionXHead, positionYHead));
+        isActive = true;
+        timer.start();
+        repaint();
     }
 
     private void generateApplePosition() {

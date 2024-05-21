@@ -1,15 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Panel {
     public JFrame frame;
-    public JPanel panel;
     private JPanel startPanel;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
@@ -32,22 +25,24 @@ public class Panel {
     }
 
     public JPanel createStartPanel() {
-        panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.setBackground(Color.GREEN);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, (HEIGHT / 2)));
 
         JButton playButton = new JButton("PLAY");
         playButton.addActionListener(e -> {
             frame.getContentPane().remove(startPanel);
+            frame.getContentPane().remove(optionsPanel);
             frame.getContentPane().add(gamePanel);
             frame.revalidate();
             frame.repaint();
-            gamePanel.requestFocusInWindow();
+            gamePanel.activateGamePanel();
         });
 
         JButton optionsButton = new JButton("OPTIONS");
         optionsButton.addActionListener(e -> {
             frame.getContentPane().remove(startPanel);
+            frame.getContentPane().remove(gamePanel);
             frame.getContentPane().add(optionsPanel);
             frame.revalidate();
             frame.repaint();
