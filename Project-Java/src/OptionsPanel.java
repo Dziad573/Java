@@ -56,7 +56,7 @@ public class OptionsPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        JLabel imageWSAD = new JLabel(new ImageIcon("src/wsadd.png"));
+        JLabel imageWSAD = new JLabel(new ImageIcon("src/img/wsadd.png"));
         settingsPanel.add(imageWSAD, gbc);
 
         gbc.gridx = 0;
@@ -70,7 +70,7 @@ public class OptionsPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        JLabel imageArrows = new JLabel(new ImageIcon("src/arrowss.png"));
+        JLabel imageArrows = new JLabel(new ImageIcon("src/img/arrowss.png"));
         settingsPanel.add(imageArrows, gbc);
 
         add(label, BorderLayout.NORTH);

@@ -7,17 +7,17 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel{
-    private JFrame frame;
+    private final JFrame frame;
     private Panel mainPanel;
-    private ArrayList<Point> body;
-    private int bodySize = 20;
-    private Timer timer;
+    private static ArrayList<Point> body;
+    private final int bodySize = 20;
+    private final Timer timer;
     private int directionX = 1;
     private int directionY = 0;
     private int positionXHead = 120;
     private int positionYHead = 120;
     private Point applePosition;
-    private Point apple2Position;
+    //private Point apple2Position;
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
     private boolean isActive = false;
@@ -39,24 +39,25 @@ public class GamePanel extends JPanel{
                 switch (keyCode) {
                     case KeyEvent.VK_W:
 
+                        //moveSnake(0,-1);
                             directionX = 0;
                             directionY = -1;
 
                         break;
                     case KeyEvent.VK_S:
-
+                        //moveSnake(0,1);
                             directionX = 0;
                             directionY = 1;
 
                         break;
                     case KeyEvent.VK_A:
-
+                        //moveSnake(-1,0);
                             directionX = -1;
                             directionY = 0;
 
                         break;
                     case KeyEvent.VK_D:
-
+                        //moveSnake(1,0);
                             directionX = 1;
                             directionY = 0;
 
@@ -155,7 +156,7 @@ public class GamePanel extends JPanel{
     public void activateGamePanel() {
         resetGame();
         isActive = true;
-        timer.start();
+        //timer.start();
         requestFocusInWindow();
     }
     public void activateContinueGamePanel() {
@@ -325,9 +326,9 @@ public class GamePanel extends JPanel{
             if(positionXHeadAfterMove == applePosition.x && positionYHeadAfterMove == applePosition.y){
                 generateApplePosition();
                 body.add(new Point(positionXHead, positionYHead));
-                if (timer.getDelay() > 50){
-                    timer.setDelay(timer.getDelay() - 5);
-                }
+                //if (timer.getDelay() > 50){
+                //    timer.setDelay(timer.getDelay() - 5);
+                //}
                 repaint();
             }
             i++;

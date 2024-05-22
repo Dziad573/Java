@@ -22,15 +22,25 @@ public class Panel {
         gamePanel = createGamePanel();
         optionsPanel = createOptionsPanel();
 
+
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("src/snake-loading-screen.png"));
+            image = ImageIO.read(new File("src/img/snake-loading-screen2.jpg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        BufferedImage image2 = null;
+        try {
+            image2 = ImageIO.read(new File("src/img/snake-loading-screen.png"));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
 
         LoadingScreen imagePanel = new LoadingScreen(image);
+        LoadingScreen imagePanel2 = new LoadingScreen(image2);
 
         frame.getContentPane().add(imagePanel);
 
@@ -39,10 +49,10 @@ public class Panel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        animateImageFadeIn(imagePanel);
+        animateImageFadeIn(imagePanel, imagePanel2);
     }
 
-    private void animateImageFadeIn(LoadingScreen imagePanel) {
+    private void animateImageFadeIn(LoadingScreen imagePanel, LoadingScreen imagePanel2) {
         Timer timer = new Timer(20, null);
         timer.addActionListener(new ActionListener() {
             private float opacity = 0.0f;
@@ -72,14 +82,42 @@ public class Panel {
                         opacity -= increment;
                         if (opacity < 0.0f) {
                             opacity = 0.0f;
-                            timer.stop();
+                            phase = 3;
                             frame.getContentPane().remove(imagePanel);
-                            frame.getContentPane().add(startPanel);
+                            frame.getContentPane().add(imagePanel2);
                             frame.revalidate();
                             frame.repaint();
                         }
                         imagePanel.setOpacity(opacity);
                         break;
+                    case 3: // Fade in
+                        opacity += increment;
+                        if (opacity > 1.0f) {
+                            opacity = 1.0f;
+                            phase = 4;
+                            count = 0;
+                        }
+                        imagePanel2.setOpacity(opacity);
+                        break;
+                    case 4:
+                        count++;
+                        if (count >= 100) {
+                            phase = 5;
+                        }
+                        break;
+                    case 5: // Fade out
+                        opacity -= increment;
+                        if (opacity < 0.0f) {
+                            opacity = 0.0f;
+                            timer.stop();
+                            frame.getContentPane().remove(imagePanel2);
+                            frame.getContentPane().add(startPanel);
+                            frame.revalidate();
+                            frame.repaint();
+                        }
+                        imagePanel2.setOpacity(opacity);
+                        break;
+
                 }
             }
         });
@@ -87,9 +125,10 @@ public class Panel {
     }
 
     public JPanel createStartPanel() {
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.DARK_GRAY);
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, (HEIGHT / 2)));
+        ImageIcon backgroundIcon = new ImageIcon("src/img/ezgif-7-64259c6135.gif");
+        BackgroundPanel panel = new BackgroundPanel(backgroundIcon);
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, (HEIGHT / 2 - 40)));
+
 
         JButton playButton = new JButton("NEW GAME");
         playButton.addActionListener(e -> {
