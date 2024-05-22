@@ -17,6 +17,7 @@ public class GamePanel extends JPanel{
     private int positionXHead = 120;
     private int positionYHead = 120;
     private Point applePosition;
+    private Point apple2Position;
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
     private boolean isActive = false;
@@ -70,7 +71,7 @@ public class GamePanel extends JPanel{
                         mainPanel.getStartPanel().requestFocusInWindow();
                         break;
 
-                        
+
                 /*
                 if (selectedRadioButton == setToWSAD) {
                     case KeyEvent.VK_W:
@@ -202,6 +203,7 @@ public class GamePanel extends JPanel{
                 positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 ||
                 positionYHeadAfterMove <= 5
         ){
+            timer.setDelay(100);
             timer.stop();
             showGameOverDialog();
             return;
@@ -215,6 +217,7 @@ public class GamePanel extends JPanel{
                     positionXHeadAfterMove == body.get(1).getX() &&
                     positionYHeadAfterMove == body.get(1).getY()
             ) {
+                timer.setDelay(100);
                 timer.stop();
                 showGameOverDialog();
                 return;
@@ -230,6 +233,7 @@ public class GamePanel extends JPanel{
                     positionXHeadAfterMove == secondBodyElementX &&
                     positionYHeadAfterMove == secondBodyElementY
             ){
+                timer.setDelay(100);
                 timer.stop();
                 showGameOverDialog();
                 return;
@@ -274,6 +278,7 @@ public class GamePanel extends JPanel{
         body.add(new Point(positionXHead, positionYHead));
         moveSnake(directionX = 1, directionY = 0);
         isActive = true;
+        timer.setDelay(100);
         timer.start();
         repaint();
     }
@@ -287,9 +292,17 @@ public class GamePanel extends JPanel{
         int rangeY = (maxY - minY) / 25;
         int randomIndexX = (int) (Math.random() * rangeX);
         int randomIndexY = (int) (Math.random() * rangeY);
+        //int randomIndexX2 = (int) (Math.random() * rangeX);
+        //int randomIndexY2 = (int) (Math.random() * rangeY);
         int appleElementPositionX = minX + randomIndexX * 25 - 5;
         int appleElementPositionY = minY + randomIndexY * 25 - 5;
+        //int apple2ElementPositionX = minX + randomIndexX2 * 25 - 5;
+        //int apple2ElementPositionY = minY + randomIndexY2 * 25 - 5;
         applePosition = new Point(appleElementPositionX, appleElementPositionY);
+
+        //if(body.size()>5){
+        //    apple2Position = new Point(apple2ElementPositionX, apple2ElementPositionY);
+        //}
 
         System.out.println("Apple x and y " + appleElementPositionX + " " + appleElementPositionY);
     }
@@ -298,21 +311,27 @@ public class GamePanel extends JPanel{
         while(applePosition.x < bodySize + 5 || applePosition.y < bodySize + 5){
             generateApplePosition();
         }
-        g.setColor(Color.BLUE);
+        g.setColor(Color.ORANGE);
         g.fillRect(applePosition.x, applePosition.y, bodySize, bodySize);
+        //if (body.size()>5){
+        //    g.setColor(Color.ORANGE);
+        //    g.fillRect(apple2Position.x, apple2Position.y, bodySize, bodySize);
+        //}
     }
 
     private void eat(){
         int i = 4;
-        while(i < 100){
+        while(i < (HEIGHT/bodySize-5) * (WIDTH/bodySize-5)){
             if(positionXHeadAfterMove == applePosition.x && positionYHeadAfterMove == applePosition.y){
                 generateApplePosition();
                 body.add(new Point(positionXHead, positionYHead));
+                if (timer.getDelay() > 50){
+                    timer.setDelay(timer.getDelay() - 5);
+                }
                 repaint();
             }
             i++;
         }
-
     }
 
     @Override
