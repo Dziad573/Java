@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
+import javax.swing.*;
+import java.io.*;
 
 public class Panel {
     public JFrame frame;
@@ -13,7 +16,7 @@ public class Panel {
     private OptionsPanel optionsPanel;
     public final static int WIDTH = 1024;
     public final static int HEIGHT = 768;
-
+    PlaySound playSound = new PlaySound();
     public void showFrame() {
         frame = new JFrame();
         frame.setTitle("Title");
@@ -53,6 +56,7 @@ public class Panel {
     }
 
     private void animateImageFadeIn(LoadingScreen imagePanel, LoadingScreen imagePanel2) {
+        playSound.playSound("src/sounds/intro.wav");
         Timer timer = new Timer(20, null);
         timer.addActionListener(new ActionListener() {
             private float opacity = 0.0f;
@@ -69,6 +73,7 @@ public class Panel {
                             opacity = 1.0f;
                             phase = 1;
                             count = 0;
+
                         }
                         imagePanel.setOpacity(opacity);
                         break;
@@ -96,6 +101,7 @@ public class Panel {
                             opacity = 1.0f;
                             phase = 4;
                             count = 0;
+                            playSound.playSound("src/sounds/music.wav");
                         }
                         imagePanel2.setOpacity(opacity);
                         break;
@@ -128,6 +134,7 @@ public class Panel {
         ImageIcon backgroundIcon = new ImageIcon("src/img/ezgif-7-64259c6135.gif");
         BackgroundPanel panel = new BackgroundPanel(backgroundIcon);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, (HEIGHT / 2 - 40)));
+
 
 
         JButton playButton = new JButton("NEW GAME");

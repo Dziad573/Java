@@ -23,6 +23,7 @@ public class GamePanel extends JPanel{
     private boolean isActive = false;
     private JRadioButton selectedRadioButton;
     private OptionsPanel optionsPanel;
+    PlaySound playSound = new PlaySound();
 
     public GamePanel(JFrame frame, Panel mainPanel) {
         this.frame = frame;
@@ -322,8 +323,9 @@ public class GamePanel extends JPanel{
 
     private void eat(){
         int i = 4;
-        while(i < (HEIGHT/bodySize-5) * (WIDTH/bodySize-5)){
+        while(i < (HEIGHT/bodySize - 5) * (WIDTH/bodySize - 5)){
             if(positionXHeadAfterMove == applePosition.x && positionYHeadAfterMove == applePosition.y){
+                playSound.playSound("src/sounds/eat.wav");
                 generateApplePosition();
                 body.add(new Point(positionXHead, positionYHead));
                 //if (timer.getDelay() > 50){
