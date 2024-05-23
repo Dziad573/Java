@@ -205,6 +205,7 @@ public class GamePanel extends JPanel{
                 positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 ||
                 positionYHeadAfterMove <= 5
         ){
+            playSound.playSound("src/sounds/gameover.wav");
             timer.setDelay(100);
             timer.stop();
             showGameOverDialog();
@@ -219,6 +220,7 @@ public class GamePanel extends JPanel{
                     positionXHeadAfterMove == body.get(1).getX() &&
                     positionYHeadAfterMove == body.get(1).getY()
             ) {
+                playSound.playSound("src/sounds/gameover.wav");
                 timer.setDelay(100);
                 timer.stop();
                 showGameOverDialog();
@@ -235,6 +237,7 @@ public class GamePanel extends JPanel{
                     positionXHeadAfterMove == secondBodyElementX &&
                     positionYHeadAfterMove == secondBodyElementY
             ){
+                playSound.playSound("src/sounds/gameover.wav");
                 timer.setDelay(100);
                 timer.stop();
                 showGameOverDialog();

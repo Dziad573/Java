@@ -3,8 +3,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class PlaySound{
-    String path = "src/sounds/intro.wav";
-    String path2 = "src/sounds/eat.wav";
+    String path = "src/sounds/music.wav";
+
     public void playSound(String soundFileName){
         try {
             File soundFile = new File(soundFileName);
@@ -12,10 +12,11 @@ public class PlaySound{
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
-            if (soundFileName.equals(path) || soundFileName.equals(path2)){
-                clip.loop(0);
-            }else {
+            if (soundFileName.equals(path))
+            {
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }else{
+                clip.loop(0);
             }
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
