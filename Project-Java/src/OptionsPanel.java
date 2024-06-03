@@ -68,11 +68,14 @@ public class OptionsPanel extends JPanel {
         add(settingsPanel, BorderLayout.CENTER);
         add(backButton, BorderLayout.SOUTH);
     }
-    public JRadioButton getSelectedRadioButton() {
-        if (setToWSAD.isSelected()) {
-            return setToWSAD;
-        } else {
-            return setToArrows;
-        }
+//    public JRadioButton getSelectedRadioButton() {
+//        if (setToWSAD.isSelected()) {
+//            return setToWSAD;
+//        } else {
+//            return setToArrows;
+//        }
+//    }
+    public boolean isSetToWSAD() {
+        return setToWSAD.isSelected();
     }
 }

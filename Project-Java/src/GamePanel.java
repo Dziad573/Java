@@ -32,8 +32,10 @@ public class GamePanel extends JPanel{
         body.add(new Point(positionXHead,positionYHead));
         body.add(new Point(positionXHead,positionYHead));
         generateApplePosition();
-        if(optionsPanel.getSelectedRadioButton() == true ){
-
+        if(optionsPanel.isSetToWSAD()){
+//            selectedRadioButton = optionsPanel.getSetToWSAD();
+        } else {
+//            selectedRadioButton = optionsPanel.getSetToArrows();
         }
         addKeyListener(new KeyAdapter() {
             @Override
