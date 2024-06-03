@@ -32,7 +32,9 @@ public class GamePanel extends JPanel{
         body.add(new Point(positionXHead,positionYHead));
         body.add(new Point(positionXHead,positionYHead));
         generateApplePosition();
+        if(optionsPanel.getSelectedRadioButton() == true ){
 
+        }
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -292,7 +294,7 @@ public class GamePanel extends JPanel{
         int minX = bodySize + 5;
         int maxX = frame.getWidth() - bodySize * 3;
         int minY = bodySize + 5;
-        int maxY = frame.getHeight() - bodySize * 4 ;
+        int maxY = frame.getHeight() - bodySize * 4;
         int rangeX = (maxX - minX) / 25;
         int rangeY = (maxY - minY) / 25;
         int randomIndexX = (int) (Math.random() * rangeX);

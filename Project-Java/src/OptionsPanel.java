@@ -22,11 +22,6 @@ public class OptionsPanel extends JPanel {
             mainPanel.getStartPanel().requestFocusInWindow();
         });
 
-        JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-        volumeSlider.setMajorTickSpacing(10);
-        volumeSlider.setPaintTicks(true);
-        volumeSlider.setPaintLabels(true);
-
         JPanel settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridBagLayout());
         settingsPanel.setBackground(Color.DARK_GRAY);
@@ -34,10 +29,6 @@ public class OptionsPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        settingsPanel.add(volumeSlider, gbc);
 
         Icon radioIcon = new RadioIcon(Color.WHITE, false, 30);
         Icon radioSelectedIcon = new RadioIcon(Color.RED, true, 30);

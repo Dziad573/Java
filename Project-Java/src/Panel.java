@@ -5,9 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
-import javax.swing.*;
-import java.io.*;
+
 
 public class Panel {
     public JFrame frame;
@@ -17,6 +15,7 @@ public class Panel {
     public final static int WIDTH = 1024;
     public final static int HEIGHT = 768;
     PlaySound playSound = new PlaySound();
+
     public void showFrame() {
         frame = new JFrame();
         frame.setTitle("Title");
@@ -49,6 +48,7 @@ public class Panel {
 
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
