@@ -17,129 +17,25 @@ public class GamePanel extends JPanel{
     private int positionXHead = 120;
     private int positionYHead = 120;
     private Point applePosition;
-    //private Point apple2Position;
     private int positionXHeadAfterMove;
     private int positionYHeadAfterMove;
     private boolean isActive = false;
-    private JRadioButton selectedRadioButton;
     private OptionsPanel optionsPanel;
     PlaySound playSound = new PlaySound();
 
     public GamePanel(JFrame frame, Panel mainPanel) {
         this.frame = frame;
+        this.mainPanel = mainPanel;
         body = new ArrayList<>();
-        body.add(new Point(positionXHead,positionYHead));
-        body.add(new Point(positionXHead,positionYHead));
-        body.add(new Point(positionXHead,positionYHead));
+        body.add(new Point(positionXHead, positionYHead));
+        body.add(new Point(positionXHead, positionYHead));
+        body.add(new Point(positionXHead, positionYHead));
         generateApplePosition();
-        if(optionsPanel.isSetToWSAD()){
-//            selectedRadioButton = optionsPanel.getSetToWSAD();
-        } else {
-//            selectedRadioButton = optionsPanel.getSetToArrows();
-        }
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_W:
-
-                        //moveSnake(0,-1);
-                            directionX = 0;
-                            directionY = -1;
-
-                        break;
-                    case KeyEvent.VK_S:
-                        //moveSnake(0,1);
-                            directionX = 0;
-                            directionY = 1;
-
-                        break;
-                    case KeyEvent.VK_A:
-                        //moveSnake(-1,0);
-                            directionX = -1;
-                            directionY = 0;
-
-                        break;
-                    case KeyEvent.VK_D:
-                        //moveSnake(1,0);
-                            directionX = 1;
-                            directionY = 0;
-
-                        break;
-                    case KeyEvent.VK_ESCAPE:
-                        frame.getContentPane().remove(GamePanel.this);
-                        frame.getContentPane().add(mainPanel.getStartPanel());
-                        frame.revalidate();
-                        frame.repaint();
-                        isActive = false;
-                        timer.stop();
-                        mainPanel.getStartPanel().requestFocusInWindow();
-                        break;
-
-
-                /*
-                if (selectedRadioButton == setToWSAD) {
-                    case KeyEvent.VK_W:
-
-                            directionX = 0;
-                            directionY = -1;
-
-                        break;
-                    case KeyEvent.VK_S:
-
-                            directionX = 0;
-                            directionY = 1;
-
-                        break;
-                    case KeyEvent.VK_A:
-
-                            directionX = -1;
-                            directionY = 0;
-
-                        break;
-                    case KeyEvent.VK_D:
-
-                            directionX = 1;
-                            directionY = 0;
-
-                        break;
-                }
-                */
-
-
-
-                    /*
-
-                    case KeyEvent.VK_UP:
-                        if (selectedRadioButton == setToArrows) {
-                            directionX = 0;
-                            directionY = -1;
-                        }
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (selectedRadioButton == setToArrows) {
-                            directionX = 0;
-                            directionY = 1;
-                        }
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (selectedRadioButton == setToArrows) {
-                            directionX = -1;
-                            directionY = 0;
-                        }
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (selectedRadioButton == setToArrows) {
-                            directionX = 1;
-                            directionY = 0;
-                        }
-                        break;
-
-                    */
-
-
-                }
+                handleKeyPress(e);
             }
         });
         timer = new Timer(100, new ActionListener() {
@@ -149,21 +45,77 @@ public class GamePanel extends JPanel{
             }
         });
     }
-    public JRadioButton getSelectedRadioButton() {
-        return selectedRadioButton;
-    }
 
     public void setOptionsPanel(OptionsPanel optionsPanel) {
         this.optionsPanel = optionsPanel;
     }
 
+    private void handleKeyPress(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (optionsPanel != null && optionsPanel.isSetToWSAD()) {
+            switch (keyCode) {
+                case KeyEvent.VK_W:
+                    directionX = 0;
+                    directionY = -1;
+                    break;
+                case KeyEvent.VK_S:
+                    directionX = 0;
+                    directionY = 1;
+                    break;
+                case KeyEvent.VK_A:
+                    directionX = -1;
+                    directionY = 0;
+                    break;
+                case KeyEvent.VK_D:
+                    directionX = 1;
+                    directionY = 0;
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    exitToMainMenu();
+                    break;
+            }
+        } else {
+
+            switch (keyCode) {
+                case KeyEvent.VK_UP:
+                    directionX = 0;
+                    directionY = -1;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    directionX = 0;
+                    directionY = 1;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    directionX = -1;
+                    directionY = 0;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    directionX = 1;
+                    directionY = 0;
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    exitToMainMenu();
+                    break;
+            }
+        }
+    }
+
+    private void exitToMainMenu() {
+        frame.getContentPane().remove(this);
+        frame.getContentPane().add(mainPanel.getStartPanel());
+        frame.revalidate();
+        frame.repaint();
+        isActive = false;
+        timer.stop();
+        mainPanel.getStartPanel().requestFocusInWindow();
+    }
 
     public void activateGamePanel() {
         resetGame();
         isActive = true;
-        //timer.start();
         requestFocusInWindow();
     }
+
     public void activateContinueGamePanel() {
         isActive = true;
         timer.start();
@@ -189,7 +141,6 @@ public class GamePanel extends JPanel{
     }
 
     private void moveSnake(int x, int y) {
-
         for (int i = body.size() - 1; i > 0; i--) {
             body.get(i).setLocation(body.get(i-1));
             repaint();
@@ -201,13 +152,13 @@ public class GamePanel extends JPanel{
         eat();
     }
 
-    private void collision(int positionXHeadAfterMove, int positionYHeadAfterMove){
+    private void collision(int positionXHeadAfterMove, int positionYHeadAfterMove) {
         if (!isActive) return;
         if(
                 positionXHeadAfterMove >= frame.getWidth() - bodySize * 2 ||
-                positionXHeadAfterMove <= 5 ||
-                positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 ||
-                positionYHeadAfterMove <= 5
+                        positionXHeadAfterMove <= 5 ||
+                        positionYHeadAfterMove >= frame.getHeight() - bodySize * 3 ||
+                        positionYHeadAfterMove <= 5
         ){
             playSound.playSound("src/sounds/gameover.wav");
             timer.setDelay(100);
@@ -220,9 +171,9 @@ public class GamePanel extends JPanel{
             Point segment = body.get(i);
             if (
                     positionXHeadAfterMove == segment.x &&
-                    positionYHeadAfterMove == segment.y ||
-                    positionXHeadAfterMove == body.get(1).getX() &&
-                    positionYHeadAfterMove == body.get(1).getY()
+                            positionYHeadAfterMove == segment.y ||
+                            positionXHeadAfterMove == body.get(1).getX() &&
+                                    positionYHeadAfterMove == body.get(1).getY()
             ) {
                 playSound.playSound("src/sounds/gameover.wav");
                 timer.setDelay(100);
@@ -237,9 +188,9 @@ public class GamePanel extends JPanel{
             int secondBodyElementY = body.get(2).getLocation().y;
             if (
                     positionXHeadAfterMove == firstBodyElementX &&
-                    positionYHeadAfterMove == firstBodyElementY ||
-                    positionXHeadAfterMove == secondBodyElementX &&
-                    positionYHeadAfterMove == secondBodyElementY
+                            positionYHeadAfterMove == firstBodyElementY ||
+                            positionXHeadAfterMove == secondBodyElementX &&
+                                    positionYHeadAfterMove == secondBodyElementY
             ){
                 playSound.playSound("src/sounds/gameover.wav");
                 timer.setDelay(100);
@@ -250,7 +201,7 @@ public class GamePanel extends JPanel{
         }
     }
 
-    private void showGameOverDialog(){
+    private void showGameOverDialog() {
         int opcja = JOptionPane.showConfirmDialog(
                 frame,
                 "Wyjechałeś poza krawędź. \n " +
@@ -259,19 +210,8 @@ public class GamePanel extends JPanel{
                 "GAME OVER",
                 JOptionPane.YES_NO_OPTION
         );
-        if(opcja == JOptionPane.YES_OPTION){
-                /*positionXHead = 120;
-                positionYHead = 120;
-                generateApplePosition();
-                frame.repaint();
-
-                while(body.size()>3){
-                    body.remove(body.size()-1);
-                }*/
+        if (opcja == JOptionPane.YES_OPTION) {
             resetGame();
-
-            //frame.dispose();
-            //showFrame();
         } else {
             System.exit(1);
         }
@@ -301,46 +241,25 @@ public class GamePanel extends JPanel{
         int rangeY = (maxY - minY) / 25;
         int randomIndexX = (int) (Math.random() * rangeX);
         int randomIndexY = (int) (Math.random() * rangeY);
-        //int randomIndexX2 = (int) (Math.random() * rangeX);
-        //int randomIndexY2 = (int) (Math.random() * rangeY);
         int appleElementPositionX = minX + randomIndexX * 25 - 5;
         int appleElementPositionY = minY + randomIndexY * 25 - 5;
-        //int apple2ElementPositionX = minX + randomIndexX2 * 25 - 5;
-        //int apple2ElementPositionY = minY + randomIndexY2 * 25 - 5;
         applePosition = new Point(appleElementPositionX, appleElementPositionY);
-
-        //if(body.size()>5){
-        //    apple2Position = new Point(apple2ElementPositionX, apple2ElementPositionY);
-        //}
-
-        System.out.println("Apple x and y " + appleElementPositionX + " " + appleElementPositionY);
     }
 
     private void drawApple(Graphics g) {
-        while(applePosition.x < bodySize + 5 || applePosition.y < bodySize + 5){
+        while (applePosition.x < bodySize + 5 || applePosition.y < bodySize + 5) {
             generateApplePosition();
         }
         g.setColor(Color.ORANGE);
         g.fillRect(applePosition.x, applePosition.y, bodySize, bodySize);
-        //if (body.size()>5){
-        //    g.setColor(Color.ORANGE);
-        //    g.fillRect(apple2Position.x, apple2Position.y, bodySize, bodySize);
-        //}
     }
 
-    private void eat(){
-        int i = 4;
-        while(i < (HEIGHT/bodySize - 5) * (WIDTH/bodySize - 5)){
-            if(positionXHeadAfterMove == applePosition.x && positionYHeadAfterMove == applePosition.y){
-                playSound.playSound("src/sounds/eat.wav");
-                generateApplePosition();
-                body.add(new Point(positionXHead, positionYHead));
-                //if (timer.getDelay() > 50){
-                //    timer.setDelay(timer.getDelay() - 5);
-                //}
-                repaint();
-            }
-            i++;
+    private void eat() {
+        if (positionXHeadAfterMove == applePosition.x && positionYHeadAfterMove == applePosition.y) {
+            playSound.playSound("src/sounds/eat.wav");
+            generateApplePosition();
+            body.add(new Point(positionXHead, positionYHead));
+            repaint();
         }
     }
 
@@ -348,5 +267,4 @@ public class GamePanel extends JPanel{
     public Dimension getPreferredSize() {
         return new Dimension(WIDTH, HEIGHT);
     }
-
 }

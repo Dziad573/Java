@@ -21,8 +21,9 @@ public class Panel {
         frame.setTitle("Title");
 
         startPanel = createStartPanel();
-        gamePanel = createGamePanel();
         optionsPanel = createOptionsPanel();
+        gamePanel = createGamePanel();
+        gamePanel.setOptionsPanel(optionsPanel);
 
 
         BufferedImage image = null;

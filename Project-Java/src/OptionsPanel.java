@@ -3,15 +3,21 @@ import java.awt.*;
 
 public class OptionsPanel extends JPanel {
 
-    private JRadioButton setToWSAD;
-    private JRadioButton setToArrows;
+    private final JFrame frame;
+    private final Panel mainPanel;
+    private final JRadioButton wsadOption;
+    private final JRadioButton arrowsOption;
 
     public OptionsPanel(JFrame frame, Panel mainPanel) {
+        this.frame = frame;
+        this.mainPanel = mainPanel;
+
         setLayout(new BorderLayout());
-        setBackground(Color.GRAY);
+        setBackground(Color.WHITE);
 
         JLabel label = new JLabel("Options", SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
+        label.setForeground(Color.WHITE);
 
         JButton backButton = new JButton("BACK");
         backButton.addActionListener(e -> {
@@ -24,7 +30,7 @@ public class OptionsPanel extends JPanel {
 
         JPanel settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridBagLayout());
-        settingsPanel.setBackground(Color.DARK_GRAY);
+        settingsPanel.setBackground(Color.BLACK);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -38,44 +44,49 @@ public class OptionsPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        JRadioButton setToWSAD = new JRadioButton("", true);
-        setToWSAD.setIcon(radioIcon);
-        setToWSAD.setSelectedIcon(radioSelectedIcon);
-        setToWSAD.setOpaque(false);
-        buttonGroup.add(setToWSAD);
-        settingsPanel.add(setToWSAD, gbc);
+        wsadOption = new JRadioButton("WSAD", true);
+        wsadOption.setForeground(Color.WHITE);
+        wsadOption.setIcon(radioIcon);
+        wsadOption.setSelectedIcon(radioSelectedIcon);
+        wsadOption.setOpaque(false);
+        buttonGroup.add(wsadOption);
+        settingsPanel.add(wsadOption, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        JLabel imageWSAD = new JLabel(new ImageIcon("src/img/wsadd.png"));
+        JLabel imageWSAD = new JLabel();
+        imageWSAD.setIcon(scaleImage("src/img/WASD.jpg"));
+        imageWSAD.setSize(100,50);
         settingsPanel.add(imageWSAD, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        JRadioButton setToArrows = new JRadioButton("");
-        setToArrows.setIcon(radioIcon);
-        setToArrows.setSelectedIcon(radioSelectedIcon);
-        setToArrows.setOpaque(false);
-        buttonGroup.add(setToArrows);
-        settingsPanel.add(setToArrows, gbc);
+        arrowsOption  = new JRadioButton("ARROWS");
+        arrowsOption.setForeground(Color.WHITE);
+        arrowsOption.setIcon(radioIcon);
+        arrowsOption.setSelectedIcon(radioSelectedIcon);
+        arrowsOption.setOpaque(false);
+        buttonGroup.add(arrowsOption);
+        settingsPanel.add(arrowsOption, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        JLabel imageArrows = new JLabel(new ImageIcon("src/img/arrowss.png"));
+        JLabel imageArrows = new JLabel();
+        imageArrows.setIcon(scaleImage("src/img/ARR.jpg"));
         settingsPanel.add(imageArrows, gbc);
-
         add(label, BorderLayout.NORTH);
         add(settingsPanel, BorderLayout.CENTER);
         add(backButton, BorderLayout.SOUTH);
     }
-//    public JRadioButton getSelectedRadioButton() {
-//        if (setToWSAD.isSelected()) {
-//            return setToWSAD;
-//        } else {
-//            return setToArrows;
-//        }
-//    }
+
+    private ImageIcon scaleImage(String path) {
+        ImageIcon imageIcon = new ImageIcon(path);
+        Image image = imageIcon.getImage();
+        Image scaledImage = image.getScaledInstance(320, 260, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+
     public boolean isSetToWSAD() {
-        return setToWSAD.isSelected();
+        return wsadOption.isSelected();
     }
 }
